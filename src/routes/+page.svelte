@@ -1,2 +1,18 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { graphql, type PastLaunchesStore } from '$houdini';
+
+	const launches: PastLaunchesStore = graphql`
+		query PastLaunches {
+			launchesPast(limit: 10) {
+				mission_name
+			}
+		}
+	`;
+</script>
+
+<p>Past launches:</p>
+<ul>
+	{#each $launches.data?.launchesPast ?? [] as launch}
+		<li>{launch?.mission_name}</li>
+	{/each}
+</ul>
